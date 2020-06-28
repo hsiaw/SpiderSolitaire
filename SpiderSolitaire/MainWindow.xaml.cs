@@ -48,11 +48,35 @@ namespace SpiderSolitaire
 
                 // add it to the canvas
                 canvas.Children.Add(img);
-                Canvas.SetLeft(img, (i%10)*_wdthCard);
-                Canvas.SetTop(img, (i/10)*20);
+                Canvas.SetLeft(img, (i % 10) * _wdthCard);
+                Canvas.SetTop(img, (i / 10) * 20);
             }
-            
 
+            int[] deck = new int[104];
+            for (int i = 0; i < deck.Length; i++)
+            {
+                deck[i] = i;
+            }
+
+            shuffle(deck);
+
+
+
+
+
+        }
+
+        private static void shuffle(int[] d)
+        {
+            Random rand = new Random();
+            for (int i = 0; i < d.Length; i++)
+            {
+                int r = i + rand.Next(d.Length - i);
+
+                int temp = d[r];
+                d[r] = d[i];
+                d[i] = temp;
+            }
         }
 
         public class Card : Image, IComparable
@@ -181,6 +205,43 @@ namespace SpiderSolitaire
                     _instance = new Cards();
                 }
                 return _instance._bitmapCardBacks[i];
+            }
+        }
+
+        public class node
+        {
+            public node next;
+            public node prev;
+            public int value;
+            public node()
+            {
+                next = null;
+                prev = null;
+                value = 0;
+            }
+            public node(int x)
+            {
+                next = null;
+                prev = null;
+                value = x;
+            }
+        }
+
+        public class column
+        {
+            node head;
+            node tail;
+            public column()
+            {
+                head = null;
+                tail = null;
+            }
+
+            public void add(int x)
+            {
+                node n = new node(x);
+                tail.next = n;
+                tail = n;
             }
         }
 
