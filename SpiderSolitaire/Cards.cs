@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 namespace SpiderSolitaire
 {
     public class Cards
-    {
+    {/*
         public enum Suit
         {
             Clubs = 0,
@@ -111,6 +111,7 @@ namespace SpiderSolitaire
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
     }
+    */
 
-
+    }
 }
