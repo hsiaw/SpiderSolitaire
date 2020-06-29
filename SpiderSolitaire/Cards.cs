@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,7 +15,7 @@ using System.Windows.Media.Imaging;
 namespace SpiderSolitaire
 {
     public class Cards
-    {/*
+    {
         public enum Suit
         {
             Clubs = 0,
@@ -27,6 +29,69 @@ namespace SpiderSolitaire
         private static Cards _instance;
 
         public static int NumCardBacks => _instance._bitmapCardBacks.Length;
+
+
+
+        public class Card : Image, IComparable
+        {
+            public Cards.Suit _suit;
+            public int _denom;
+
+            public Card(int value)
+            {
+                int suit = value / 13;
+                _suit = (Cards.Suit)suit;
+                _denom = value - suit * 13;
+                Source = Cards.GetCard(_suit, _denom);
+                Height = MainWindow._hghtCard;
+                AllowDrop = true;
+                this.MouseDown += (o, e) =>
+                {
+                    Debug.WriteLine("here i am in mousedown");
+                };
+                this.MouseUp += (o, e) =>
+                {
+                    Debug.WriteLine("here i am in mouseup");
+                };
+                this.MouseMove += (o, e) =>
+                {
+                    DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+                };
+            }
+
+            protected override void OnDragEnter(DragEventArgs e)
+            {
+                base.OnDragEnter(e);
+                Debug.WriteLine($"here i am in drag enter");
+            }
+
+            protected override void OnDragLeave(DragEventArgs e)
+            {
+                base.OnDragLeave(e);
+                Debug.WriteLine($"here i am in {nameof(OnDragLeave)}");
+            }
+
+            // A=12, K=11, Q=10, J = 9. Pts = denom - 9
+            public int Points { get { return _denom >= 9 ? _denom - 8 : 0; } }
+
+            public int CompareTo(object obj)
+            {
+                if (obj as Card != null)
+                {
+                    var other = (Card)obj;
+                    if (_suit == other._suit)
+                    {
+                        return _denom.CompareTo(other._denom);
+                    }
+                    return _suit.CompareTo(other._suit);
+                }
+                throw new InvalidOperationException();
+            }
+            public override string ToString()
+            {
+                return $"{_denom} of {_suit}";
+            }
+        }
 
         public Cards()
         {
@@ -98,6 +163,10 @@ namespace SpiderSolitaire
 
         internal static ImageSource GetCardBack(int i)
         {
+            if (_instance == null)
+            {
+                _instance = new Cards();
+            }
             return _instance._bitmapCardBacks[i];
         }
         public const int LOAD_LIBRARY_AS_DATAFILE = 2;
@@ -111,7 +180,7 @@ namespace SpiderSolitaire
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
     }
-    */
+    
 
-    }
+    
 }

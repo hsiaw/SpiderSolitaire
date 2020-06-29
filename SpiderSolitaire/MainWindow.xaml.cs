@@ -32,25 +32,30 @@ namespace SpiderSolitaire
 
         private void newGame(object sender, RoutedEventArgs e)
         {
-            var sp = new StackPanel() { Orientation = Orientation.Vertical };
-            sp.Children.Add(new Label() { Content = "Wendy's Spider Solitaire" });
             var canvas = new Canvas();
-            sp.Children.Add(canvas);
-            this.Content = sp;
 
-            for (int i = 0; i < 44; i++)
-            {
-                var img = new Image()
-                {
-                    Source = Cards.GetCardBack(CARDBACK),
-                    Height = _hghtCard
-                };
+            canvas.Children.Add(new Label() { Content = "Wendy's Spider Solitaire" });
+            this.Content = canvas;
 
-                // add it to the canvas
-                canvas.Children.Add(img);
-                Canvas.SetLeft(img, (i % 10) * _wdthCard);
-                Canvas.SetTop(img, (i / 10) * 20);
-            }
+            var c = new Cards.Card(4);
+            canvas.Children.Add(c);
+            var x = new Cards.Card(10);
+            canvas.Children.Add(x);
+            Canvas.SetLeft(x, 150);
+
+            //for (int i = 0; i < 44; i++)
+            //{
+            //    var img = new Image()
+            //    {
+            //        Source = Cards.GetCardBack(CARDBACK),
+            //        Height = _hghtCard
+            //    };
+
+            //    // add it to the canvas
+            //    canvas.Children.Add(img);
+            //    Canvas.SetLeft(img, (i % 10) * _wdthCard);
+            //    Canvas.SetTop(img, (i / 10) * 20);
+            //}
 
             int[] deck = new int[104];
             for (int i = 0; i < deck.Length; i++)
@@ -79,7 +84,7 @@ namespace SpiderSolitaire
             }
         }
 
-        public class Card : Image, IComparable
+        /*public class Card : Image, IComparable
         {
             public Cards.Suit _suit;
             public int _denom;
@@ -206,7 +211,7 @@ namespace SpiderSolitaire
                 }
                 return _instance._bitmapCardBacks[i];
             }
-        }
+        }*/
 
         public class node
         {
@@ -245,7 +250,7 @@ namespace SpiderSolitaire
             }
         }
 
-        public const int LOAD_LIBRARY_AS_DATAFILE = 2;
+        /*public const int LOAD_LIBRARY_AS_DATAFILE = 2;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFileReserved, uint dwFlags);
@@ -254,6 +259,6 @@ namespace SpiderSolitaire
         public static extern IntPtr LoadBitmap(IntPtr hInstance, int uID);
 
         [DllImport("gdi32")]
-        static extern int DeleteObject(IntPtr o);
+        static extern int DeleteObject(IntPtr o);*/
     }
 }
