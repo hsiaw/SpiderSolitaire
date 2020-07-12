@@ -37,6 +37,7 @@ namespace SpiderSolitaire
             public Cards.Suit _suit;
             public int _denom;
 
+
             public Card(int value)
             {
                 int suit = value / 13;
@@ -47,16 +48,24 @@ namespace SpiderSolitaire
                 AllowDrop = true;
                 this.MouseDown += (o, e) =>
                 {
-                    Debug.WriteLine("here i am in mousedown");
+                    DragDrop.DoDragDrop(this, this.Source, DragDropEffects.Move);
                 };
-                this.MouseUp += (o, e) =>
+                this.DragLeave += (o, e) =>
                 {
-                    Debug.WriteLine("here i am in mouseup");
+                    if (e.OriginalSource != this)
+                    {
+                        this.Source = Cards.GetCardBack(2);
+                    }
+                    
                 };
-                this.MouseMove += (o, e) =>
+                this.DragEnter += (o, e) =>
                 {
-                    DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+                    if (e.OriginalSource != this)
+                    {
+                        this.Source = Cards.GetCardBack(1);
+                    }         
                 };
+                
             }
 
             protected override void OnDragEnter(DragEventArgs e)
@@ -169,6 +178,7 @@ namespace SpiderSolitaire
             }
             return _instance._bitmapCardBacks[i];
         }
+
         public const int LOAD_LIBRARY_AS_DATAFILE = 2;
 
         [DllImport("kernel32.dll", SetLastError = true)]
