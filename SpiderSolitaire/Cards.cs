@@ -36,10 +36,12 @@ namespace SpiderSolitaire
         {
             public Cards.Suit _suit;
             public int _denom;
-
+            public int cvalue;
+            private int xdrag;
 
             public Card(int value)
             {
+                cvalue = value;
                 int suit = value / 13;
                 _suit = (Cards.Suit)suit;
                 _denom = value - suit * 13;
@@ -48,22 +50,25 @@ namespace SpiderSolitaire
                 AllowDrop = true;
                 this.MouseDown += (o, e) =>
                 {
+                    this.xdrag = value;
                     DragDrop.DoDragDrop(this, this.Source, DragDropEffects.Move);
                 };
                 this.DragLeave += (o, e) =>
                 {
-                    if (e.OriginalSource != this)
-                    {
+                    
                         this.Source = Cards.GetCardBack(2);
-                    }
+                    
                     
                 };
+                
                 this.DragEnter += (o, e) =>
                 {
-                    if (e.OriginalSource != this)
+                    if (this.xdrag != value)
                     {
+
+
                         this.Source = Cards.GetCardBack(1);
-                    }         
+                    }      
                 };
                 
             }

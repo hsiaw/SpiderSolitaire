@@ -27,23 +27,37 @@ namespace SpiderSolitaire
         public MainWindow()
         {
             InitializeComponent();
-            Width = 1600;
-            Height = 800;
+            this.Width = Properties.Settings.Default.Size.Width;
+            this.Height = Properties.Settings.Default.Size.Height;
+            this.Top = Properties.Settings.Default.Position.Height;
+            this.Left = Properties.Settings.Default.Position.Width;
+
+            this.Closed += (o, e) =>
+            {
+                Properties.Settings.Default.Size = new System.Drawing.Size((int)this.Width, (int)this.Height);
+                Properties.Settings.Default.Position = new System.Drawing.Size((int)this.Left, (int)this.Top);
+                Properties.Settings.Default.Save();
+            };
+
             Title = "Spider Solitaire";
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.btnNew.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
         private void newGame(object sender, RoutedEventArgs e)
         {
             var canvas = new Canvas();
+            //this.playingArea = new playingArea();
+            
+            this.playingArea.Content = new playingArea();
 
-            canvas.Children.Add(new Label() { Content = "Wendy's Spider Solitaire" });
-            this.Content = canvas;
+            //canvas.Children.Add(new Label() { Content = "Wendy's Spider Solitaire" });
 
-            var x = new Cards.Card(4);
-            var y = new Cards.Card(5);
-            canvas.Children.Add(x);
-            canvas.Children.Add(y);
-            Canvas.SetLeft(x, 400);
+
 
             int[] deck = new int[104];
             for (int i = 0; i < deck.Length; i++)
