@@ -28,8 +28,7 @@ namespace SpiderSolitaire
 
             this.Drop += (o, e) =>
             {
-                //this.Source = Cards.GetCardBack(3);
-                //playingArea.instance.move();
+                playingArea.instance.move((Cards.Card)e.OriginalSource, this);   
 
             };
 
@@ -39,6 +38,19 @@ namespace SpiderSolitaire
         {
             refresh();
         }
+
+        public void add(Cards.Card x)
+        {
+            cards.Add(x);
+            refresh();
+        }
+
+        public void remove(Cards.Card x)
+        {
+            cards.Remove(x);
+            refresh();
+        }
+
         public void refresh()
         {
             Canvas can = new Canvas();

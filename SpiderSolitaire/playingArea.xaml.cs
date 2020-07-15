@@ -74,7 +74,9 @@ namespace SpiderSolitaire
             //shuffle(deck);
 
         }
-        public void move(Cards.Card c1, column c2)
-        { }
+        public void move(Cards.Card c, column dest)
+        {         
+            dest.add(c);        
+        }
     }
 }

@@ -67,7 +67,7 @@ namespace SpiderSolitaire
                     {
 
 
-                        this.Source = Cards.GetCardBack(1);
+                        //this.Source = Cards.GetCardBack(1);
                     }      
                 };
                 
