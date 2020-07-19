@@ -21,14 +21,21 @@ namespace SpiderSolitaire
     public partial class column : UserControl
     {
         public List<Cards.Card> cards = new List<Cards.Card>();
+        private Canvas can;
+
         public column()
         {
             InitializeComponent();
             this.Loaded += Column_Loaded;
+            can = new Canvas();
+            this.Content = can;
+            //Canvas current = 
 
             this.Drop += (o, e) =>
             {
-                playingArea.instance.move((Cards.Card)e.OriginalSource, this);   
+                var from = (Cards.Card)e.Data.GetData(typeof(Cards.Card));
+                //if(from.cvalue == cards.las)
+                playingArea.instance.move(from, this);   
 
             };
 
@@ -47,18 +54,31 @@ namespace SpiderSolitaire
 
         public void remove(Cards.Card x)
         {
+
             cards.Remove(x);
+            
             refresh();
         }
 
         public void refresh()
         {
-            Canvas can = new Canvas();
-            foreach (var c in cards)
+            int height = 0;
+
+            can.Children.Clear();
+
+            foreach (Cards.Card c in cards)
             {
                 can.Children.Add(c);
+                height += 30;
+                Canvas.SetTop(c, height);
             }
             this.Content = can;
         }
+
+        public bool isin(Cards.Card x)
+        {
+            return cards.Contains(x);
+        }
     }
 }
+ 

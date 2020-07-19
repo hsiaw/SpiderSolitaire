@@ -51,38 +51,10 @@ namespace SpiderSolitaire
                 this.MouseDown += (o, e) =>
                 {
                     this.xdrag = value;
-                    DragDrop.DoDragDrop(this, this.Source, DragDropEffects.Move);
-                };
-                this.DragLeave += (o, e) =>
-                {
-                    
-                        this.Source = Cards.GetCardBack(2);
-                    
-                    
+                    DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
                 };
                 
-                this.DragEnter += (o, e) =>
-                {
-                    if (this.xdrag != value)
-                    {
-
-
-                        //this.Source = Cards.GetCardBack(1);
-                    }      
-                };
                 
-            }
-
-            protected override void OnDragEnter(DragEventArgs e)
-            {
-                base.OnDragEnter(e);
-                Debug.WriteLine($"here i am in drag enter");
-            }
-
-            protected override void OnDragLeave(DragEventArgs e)
-            {
-                base.OnDragLeave(e);
-                Debug.WriteLine($"here i am in {nameof(OnDragLeave)}");
             }
 
             // A=12, K=11, Q=10, J = 9. Pts = denom - 9
@@ -103,7 +75,24 @@ namespace SpiderSolitaire
             }
             public override string ToString()
             {
-                return $"{_denom} of {_suit}";
+                int num = _denom + 2;
+                if(num == 14)
+                {
+                    return $"Ace of {_suit}";
+                }
+                if(num == 13)
+                {
+                    return $"King of {_suit}";
+                }
+                if(num == 12)
+                {
+                    return $"Queen of {_suit}";
+                }
+                if(num == 11)
+                {
+                    return $"Jack of {_suit}";
+                }
+                return $"{num} of {_suit}";
             }
         }
 

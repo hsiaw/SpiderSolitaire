@@ -45,24 +45,6 @@ namespace SpiderSolitaire
                 Canvas.SetLeft(cardColumns[i], i * (_wdthCard + 10));
             }
 
-            cardColumns[1].cards.Add(new Cards.Card(1));
-            cardColumns[2].cards.Add(new Cards.Card(2));
-
-            /*for (int i = 0; i < 44; i++)
-            {
-                var newCard = new Cards.Card(i);
-                
-
-                // add it to the canvas
-                c.Children.Add(newCard);
-                Canvas.SetLeft(newCard, (i % 10) * _wdthCard);
-                Canvas.SetTop(newCard, (i / 10) * 20);
-                Canvas.SetLeft(newCard, (i % 10) * _wdthCard);
-                Canvas.SetTop(newCard, (i / 10) * 20);
-            }*/
-
-
-
 
 
             int[] deck = new int[104];
@@ -71,12 +53,42 @@ namespace SpiderSolitaire
                 deck[i] = i;
             }
 
-            //shuffle(deck);
+            shuffle(deck);
 
-        }
+            int cvalue;
+            for(int i = 0; i < 54; i++)
+            {
+                cvalue = deck[i] % 52;
+                cardColumns[i % 10].cards.Add(new Cards.Card(cvalue));
+            }
+
+         }
+
+
         public void move(Cards.Card c, column dest)
-        {         
+        {   
+            foreach (column x in cardColumns)
+            {
+                if (x.isin(c))
+                {
+                    x.remove(c);
+                }
+            }
             dest.add(c);        
+        }
+
+
+        private static void shuffle(int[] d)
+        {
+            Random rand = new Random();
+            for (int i = 0; i < d.Length; i++)
+            {
+                int r = i + rand.Next(d.Length - i);
+
+                int temp = d[r];
+                d[r] = d[i];
+                d[i] = temp;
+            }
         }
     }
 }
